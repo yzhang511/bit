@@ -1,0 +1,64 @@
+model_class: NDT
+
+encoder:
+  from_pt: null
+
+  context:
+    forward: -1      
+    backward: -1    
+
+  smooth_and_noise:
+    noise: true
+    smooth_sd: 2  # gaussian smoothing, null to not smooth
+    white_noise_sd: 0.2      
+    constant_offset_sd: 0.05  
+
+  embedder:
+    stitch: true
+
+    patch_size: 5
+    
+    masker:
+      active: true
+      ratio: 0.5          
+      expand_prob: 1.0   
+      max_timespan: 15
+
+    max_F: 2500           
+    max_channels: 256     
+
+    input_dim: 256        
+    pos: false             
+    act: softsign         
+    bias: true            
+    dropout: 0.2          
+
+
+  transformer:
+    n_layers: 7           
+    hidden_size: 384    
+    use_rope: true        
+    rope_theta: 10000.0   
+
+    n_heads: 6            
+    attention_bias: true  
+
+    act: gelu            
+    inter_size: 512     
+    mlp_bias: true       
+    
+    dropout: 0.4          
+    fixup_init: true      
+
+  factors:  
+    active: false            
+    size: 384             
+    act: relu                
+    bias: true               
+    dropout: 0.0             
+    fixup_init: false        
+    init_range: 0.1          
+    
+decoder:
+  from_pt: null
+

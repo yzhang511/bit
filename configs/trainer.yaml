@@ -1,0 +1,80 @@
+seed: 1
+
+savestring: test
+wandb_project: test
+log_to_wandb: false
+
+verbosity: 0
+
+# Logging directories
+dirs:
+  checkpoint_dir: YOUR_CHECKPOINT_DIR  # save model state dicts (todo optimizer states)
+  log_dir: YOUR_LOG_DIR  # save tensorboard logs
+
+
+# Training configuration
+training:
+  num_epochs: 1
+  train_batch_size: 1
+  test_batch_size: 1        
+  shuffle_test_dataloader: false    # Shuffle test dataloader between epochs
+
+  save_every: null  # Save checkpoint
+  eval_every: null  # Eval model
+
+
+
+# Model configuration. 
+# Will be passed to the model __init__  method if a model is not passed to the Trainer __init__ method.
+model: 
+  model_class: null   # Any registered model class name. 
+
+# Data configuration.
+data:
+  dataset_class: ssl # Any registered dataset class name. 
+
+  # Load raw dataset if a dataset is not passed to the Trainer __init__ method. 
+  hf_dataset_name: null   # from huggingface
+  json_dataset_name: null # from json file
+
+  train_name: train   # name of the train split in the raw datasete
+  test_name: test     # name of the test split in the raw datasete
+  train_len: null     # used length of the train dataset. null to use all
+  test_len: null      # used length of the test dataset. null to use all
+
+
+# Method configuration. Contains kwargs that are specific to the training method.
+method:
+
+  # Passed to the model __init__ method together with the model config
+  model_kwargs: {}
+
+  # Passed to the Dataset __init__ method together with the raw dataset. 
+  dataset_kwargs: {}
+
+  # Passed to the DataLoader __init__ method.
+  dataloader_kwargs:
+    # Contains which keys to pad, along which dimension with which value
+    pad_dict: 
+      spikes:
+          dim: 0
+          side: left
+          value: 0
+          truncate: null
+          min_length: null
+
+  # Passed to all metrics
+  metric_kwargs: {}
+
+# Optimizer configuration
+optimizer:
+  # todo implement other optimizers
+  gradient_accumulation_steps: 4
+  lr: 1.e-4       # learning rate
+  wd: 0.01        # weght decay
+  eps: 1.e-8      # avoid dividing by zero in AdamW optimizer
+
+  scheduler: step # step/cosine/linear
+  warmup_pct: 0.0 # percentage of warmup steps (cosine/linear scheduler)
+  gamma: 0.95     # step decay (step scheduler)
+  div_factor: 10  # ratio between maximum and initial learning rate (cosine scheduler)

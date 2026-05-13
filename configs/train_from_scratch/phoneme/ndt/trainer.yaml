@@ -1,0 +1,109 @@
+seed: 42
+
+savestring: null
+wandb_project: bci
+wandb_entity: null
+log_to_wandb: true
+
+verbosity: 0
+
+dirs:
+  data_dir: /projects/bdeu/yzhang39/examples # YOUR_DATA_DIR
+  checkpoint_dir: /projects/bfsx/yzhang39/checkpoints # YOUR_CHECKPOINT_DIR
+  log_dir: /projects/bfsx/yzhang39/logs # YOUR_LOG_DIR
+
+training:
+  num_epochs: 3000
+  train_batch_size: 32
+  test_batch_size: 32    
+  shuffle_test_dataloader: false    
+  drop_last_test_dataloader: false  
+  drop_last_train_dataloader: false  
+  save_every: 500  
+  eval_every: 1
+  mixed_precision: bf16
+
+model: include:configs/models/encoder/ndt.yaml
+
+data:
+  dataset_class: sl
+
+  dataset:
+    zscore_block: true
+    zscore_day: true
+    day_idxs: null
+    area_start: 0
+    area_end: 128
+
+  vocab_file: vocab.json
+
+  train_name: train 
+  val_name: val  
+  test_name: test     
+  train_len: null 
+  val_len: null    
+  test_len: null      
+
+method:
+  model_kwargs:
+    method_name: ctc   
+    vocab_size: 41
+    blank_id: 0
+    zero_infinity: true
+
+  metric_kwargs:
+    metric_name: PER
+    n_print: 0
+  
+  dataset_kwargs:
+    dataset_name: willett_2023_text
+    targets_name: phonemes_idx
+    batch_size: 1
+
+  dataloader_kwargs:
+    pad_dict:
+      spikes:
+        - dim: 0
+          side: right
+          value: -100
+          truncate: null
+          min_length: null
+          max_length: null
+      spikes_mask:
+        - dim: 0
+          side: right
+          value: 0
+          truncate: null
+          min_length: null
+          max_length: null
+      spikes_timestamp:
+        - dim: 0
+          side: right
+          value: 0
+          truncate: null
+          min_length: null
+          max_length: null
+      targets:
+        - dim: 0
+          side: right
+          value: -100
+          truncate: null
+          min_length: null
+          max_length: null
+      targets_mask:
+        - dim: 0
+          side: right
+          value: 0
+          truncate: null
+          min_length: null
+          max_length: null
+
+optimizer:
+  gradient_accumulation_steps: 1
+  lr: 5.e-4
+  wd: 1.e-5
+  eps: 1.e-8
+  warmup_pct: 0.0
+  gamma: 0.95     
+  div_factor: 25  
+  scheduler: cosine 

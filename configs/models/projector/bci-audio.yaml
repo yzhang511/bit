@@ -1,0 +1,12 @@
+model_class: BCI_AudioLLM
+
+from_pt: null
+
+projector:
+  stacking: 1      
+  inter_size: null # 1024
+  embed_size: 768
+  bias: true
+  act: relu
+
+encoder: include:configs/models/encoder/ndt.yaml

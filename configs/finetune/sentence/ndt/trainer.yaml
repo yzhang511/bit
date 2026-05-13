@@ -1,0 +1,148 @@
+seed: 42
+
+savestring: null
+wandb_project: bci
+wandb_entity: null
+log_to_wandb: true
+
+verbosity: 0
+
+dirs:
+  data_dir: /projects/bdeu/yzhang39/examples # YOUR_DATA_DIR
+  checkpoint_dir: /projects/bfsx/yzhang39/checkpoints # YOUR_CHECKPOINT_DIR
+  log_dir: /projects/bfsx/yzhang39/logs # YOUR_LOG_DIR
+
+training:
+  num_epochs: 200
+  train_batch_size: 8
+  test_batch_size: 8      
+  shuffle_test_dataloader: false    
+  drop_last_test_dataloader: false  
+  drop_last_train_dataloader: false  
+  save_every: 100  
+  eval_every: 1 
+  mixed_precision: bf16 
+
+model: include:configs/models/projector/bci-audio.yaml
+
+data:
+  dataset_class: sl
+
+  dataset: 
+    zscore_day: true
+    zscore_block: true
+    day_idxs: null
+    area_start: 0
+    area_end: 128
+    features:
+      - tx1
+      - spikePow
+
+  tokenizer_path: lmms-lab/Aero-1-Audio-1.5B
+  prompt: "<|neural_activity|>#<|/neural_activity|> decode the above neural activity into an English sentence:"
+  
+  train_name: train   
+  val_name: val
+  test_name: test     
+  train_len: null 
+  val_len: null    
+  test_len: null      
+
+method:
+  model_kwargs:
+    method_name: endtoend
+
+    load_ndt_from_pt: null
+
+    llm_path: lmms-lab/Aero-1-Audio-1.5B
+
+    project_to_audio: false
+    freeze_llm: false
+    freeze_ndt: false
+    use_contrastive: true
+
+    lora:
+      r: 8
+      alpha: 32
+      dropout: 0.2
+      target_modules: ["q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+
+      modules_to_save: []
+
+    vocab_size: 41
+    blank_id: 0
+    zero_infinity: true
+
+  metric_kwargs:
+    metric_name: WER
+    n_print: 0
+    n_beams: 1
+
+  dataset_kwargs:
+    dataset_name: willett_2023_text
+    targets_name: labels
+    batch_size: 1
+
+  dataloader_kwargs:
+    pad_dict:
+      spikes:
+        - dim: 0
+          side: right
+          value: -100
+          truncate: null
+          min_length: null
+          max_length: null
+      spikes_mask:
+        - dim: 0
+          side: right
+          value: 0
+          truncate: null
+          min_length: null
+          max_length: null
+      spikes_timestamp:
+        - dim: 0
+          side: right
+          value: 0
+          truncate: null
+          min_length: null
+          max_length: null
+      targets:
+        - dim: 0
+          side: right
+          value: -100
+          truncate: null
+          min_length: null
+          max_length: null
+      targets_mask:
+        - dim: 0
+          side: right
+          value: 0
+          truncate: null
+          min_length: null
+          max_length: null
+      input_ids:
+        - dim: 0
+          side: right
+          value: 0
+          truncate: null
+          min_length: null
+          max_length: null
+      attention_mask:
+        - dim: 0
+          side: right
+          value: 0
+          truncate: null
+          min_length: null
+          max_length: null
+
+optimizer:
+  gradient_accumulation_steps: 1
+  lr: 5.e-5
+  wd: 1.e-5
+  eps: 1.e-8
+  warmup_pct: 0.0
+  gamma: 0.95     
+  div_factor: 25  
+  scheduler: cosine 
+
+  

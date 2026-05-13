@@ -1,0 +1,16 @@
+compute_environment: LOCAL_MACHINE
+debug: false
+deepspeed_config:
+  zero_optimization:
+    stage: 2
+    allgather_partitions: true
+    reduce_scatter: true
+    contiguous_gradients: true
+    overlap_comm: true
+    ignore_unused_parameters: true
+  train_micro_batch_size_per_gpu: 1 
+  gradient_accumulation_steps: 8  
+  bf16: 
+    enabled: true
+distributed_type: DEEPSPEED
+mixed_precision: 'bf16'
