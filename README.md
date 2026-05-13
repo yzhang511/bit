@@ -45,7 +45,7 @@ python train.py --training_mode MODE \
                 [--ds_config DS_CONFIG] \
                 [--kwargs KEY=VALUE ...]
 ```
-<small>
+<sub>
 
 - `--training_mode`: `train_from_scratch`, `finetune`
 - `--encoder`: `ndt`
@@ -56,7 +56,7 @@ python train.py --training_mode MODE \
 - `--ds_config`: path to DeepSpeed config (optional)
 - `--kwargs`: additional key=value overrides (optional)
 
-</small>
+</sub>
 
 #### Example
 
@@ -90,14 +90,14 @@ Once you have the fine-tuned model, you can generate sentence predictions in two
 ```bash
 python eval_phoneme.py --model_path YOUR_MODEL_PATH --eval_split val
 ```
-<small>
+<sub>
 
 - `--model_path`: path to model checkpoint
 - `--eval_split`: `val`, `test`, `holdout`
 - `val` specifies the validation partition, which corresponds to the test set provided by the benchmark. Use `holdout` for the holdout set of the competition. 
 - Outputs `{eval_split}_phoneme_logits.pt` that can be used for language model rescoring.
 
-</small>
+</sub>
 
 2. Run the following command to predict sentences using an LLM:
 
@@ -105,12 +105,12 @@ python eval_phoneme.py --model_path YOUR_MODEL_PATH --eval_split val
 python eval_llm.py --model_path YOUR_MODEL_PATH --eval_split val
 ```
 
-<small>
+<sub>
 
 - `--nbest`: number of candidate sentences for nucleus sampling (optional) 
 - `--phoneme_logits_path`: path to saved phoneme logits (optional) 
 
-</small>
+</sub>
 
 
 ## Citation
