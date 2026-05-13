@@ -1,11 +1,11 @@
 ## BraIn-to-Text (BIT)
 
-Speech brain-computer interfaces (BCIs) aim to restore communication for people with paralysis by directly translating neural activity into sentences. Most existing systems use cascaded frameworks that first decode phonemes before assembling sentences with an n-gram language model. We instead introduce an end-to-end BraIn-to-Text (BIT) framework that directly translates neural activity into coherent sentences by integrating a neural encoder with audio large language models (LLMs).
+Speech brain-computer interfaces (BCIs) aim to restore natural communication by translating neural activity into language. We introduce **B**ra**I**n-to-**T**ext (**BIT**), an end-to-end decoding framework that integrates a transformer-based neural encoder with audio large language models (LLMs) to directly generate coherent sentences from neural activity.
 
 - [Paper](https://arxiv.org/abs/2511.21740)
 - [Setup](#environment-setup)
 - [Training](#training)
-- [Eval](#eval)
+- [Evaluation](#eval)
 
 ## Setup
 
