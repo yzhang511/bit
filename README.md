@@ -47,14 +47,12 @@ python train.py --training_mode MODE \
 ```
 <small>
 
-- `--training_mode`: `train_from_scratch`, `finetune`
-- `--encoder`: `ndt`
-- `--task`: `none`, `phoneme`, `sentence`
-- `--dataset`: `none`, `willett_2023_text`, `brandman_2024_text`
-- `--features`: `none`, `all`, `tx1`, `spikePow`
-- `--ft_ckpt`: path to fine-tuned checkpoint (optional)
-- `--ds_config`: path to DeepSpeed config (optional)
-- `--kwargs`: additional key=value overrides (optional)
+- `--training_mode`: *train_from_scratch, finetune*
+- `--encoder`: *ndt*
+- `--task`: *phoneme, sentence*
+- `--dataset`: *willett_2023_text, brandman_2024_text*
+- `--features`: *all, tx1, spikePow*
+- `--ft_ckpt`: path to finetuned model checkpoint (optional)
 
 </small>
 
@@ -92,10 +90,9 @@ python eval_phoneme.py --model_path YOUR_MODEL_PATH --eval_split val
 ```
 <small>
 
-- `--model_path`: path to model checkpoint
-- `--eval_split`: `val`, `test`, `holdout`
-- `val` specifies the validation partition, which corresponds to the test set provided by the benchmark. Use `holdout` for the holdout set of the competition. 
-- Outputs `{eval_split}_phoneme_logits.pt` that can be used for language model rescoring.
+- `--eval_split`: *val, test, holdout*
+- *val* specifies the validation partition, which corresponds to the test set provided by the benchmark. Use *holdout* for the holdout set of the competition. 
+- *{eval_split}_phoneme_logits.pt* is saved for use in language model rescoring.
 
 </small>
 
