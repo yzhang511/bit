@@ -51,7 +51,7 @@ python train.py --training_mode MODE \
 
 #### Training Args
 
-<table><thead><tr>
+<sub><table><thead><tr>
 <th>Argument</th><th>Choices</th><th>Default</th>
 </tr></thead><tbody>
 <tr><td><code>--training_mode</code></td><td><code>train_from_scratch</code>, <code>finetune</code></td><td><code>train_from_scratch</code></td></tr>
@@ -62,7 +62,7 @@ python train.py --training_mode MODE \
 <tr><td><code>--ft_ckpt</code></td><td>Optional path to fine-tuned checkpoint</td><td><code>none</code></td></tr>
 <tr><td><code>--ds_config</code></td><td>Optional path to DeepSpeed config</td><td><code>none</code></td></tr>
 <tr><td><code>--kwargs</code></td><td>Additional key=value overrides</td><td>—</td></tr>
-</tbody></table>
+</tbody></table></sub>
 
 #### Example
 
@@ -99,14 +99,14 @@ Once you have the fine-tuned model, you can generate sentence predictions in two
 python eval_phoneme.py --model_path YOUR_MODEL_PATH --eval_split val
 ```
 
-<table><thead><tr>
+<sub><table><thead><tr>
 <th>Argument</th><th>Choices</th><th>Default</th>
 </tr></thead><tbody>
 <tr><td><code>--model_path</code></td><td>Path to trained model</td><td><code>./</code></td></tr>
 <tr><td><code>--eval_split</code></td><td><code>val</code>, <code>test</code>, <code>holdout</code></td><td><code>test</code></td></tr>
 <tr><td><code>--gpu_number</code></td><td>GPU device index</td><td><code>0</code></td></tr>
 <tr><td><code>--trainer_config_path</code></td><td>Path to trainer config</td><td><code>none</code></td></tr>
-</tbody></table>
+</tbody></table></sub>
 
 > **NOTE**: `val` specifies the validation partition, which corresponds to the test set provided by the benchmark. Use `holdout` for the holdout set of the competition. The above script outputs `{eval_split}_phoneme_logits.pt`, which can optionally be used for language model rescoring with nucleus sampling in the next step.
 
@@ -116,7 +116,7 @@ python eval_phoneme.py --model_path YOUR_MODEL_PATH --eval_split val
 python eval_llm.py --model_path YOUR_MODEL_PATH --eval_split val
 ```
 
-<table><thead><tr>
+<sub><table><thead><tr>
 <th>Argument</th><th>Choices</th><th>Default</th>
 </tr></thead><tbody>
 <tr><td><code>--model_path</code></td><td>Path to LLM model</td><td><code>./</code></td></tr>
@@ -125,7 +125,7 @@ python eval_llm.py --model_path YOUR_MODEL_PATH --eval_split val
 <tr><td><code>--gpu_number</code></td><td>GPU device index</td><td><code>0</code></td></tr>
 <tr><td><code>--nbest</code></td><td>(Optional) number of candidate sentences for nucleus sampling</td><td><code>0</code></td></tr>
 <tr><td><code>--phoneme_logits_path</code></td><td>(Optional) path to saved phoneme logits</td><td><code>none</code></td></tr>
-</tbody></table>
+</tbody></table></sub>
 
 
 ### Citation
