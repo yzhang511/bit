@@ -7,15 +7,11 @@ Speech brain-computer interfaces (BCIs) aim to restore communication for people 
 - [Training](#training)
 - [Eval](#eval)
 
----
-
-### Environment Setup
+## Setup
 
 ```bash
 conda env create -f env.yaml
 ```
-
-### Data Setup
 
 #### Brain2Text 25
 
@@ -25,9 +21,8 @@ Download data from [DRYAD](https://datadryad.org/dataset/doi:10.5061/dryad.dncjs
 
 Download `competitionData.tar.gz` from [DRYAD](https://datadryad.org/dataset/doi:10.5061/dryad.x69p8czpq) and rename it to `willett_2023_text`.
 
----
 
-### Training
+## Training
 
 *NOTE*: Update trainer YAML to use your own data and checkpoint path. For example, change the following entries in `configs/finetune/phoneme/ndt/trainer.yaml`:
 
@@ -89,9 +84,7 @@ python train.py --training_mode finetune \
                 --ft_ckpt YOUR_MODEL_PATH
 ```
 
----
-
-### Eval
+## Eval
 
 Once you have the fine-tuned model, you can generate sentence predictions in two stages:
 
@@ -134,7 +127,7 @@ python eval_llm.py --model_path YOUR_MODEL_PATH --eval_split val
 </table>
 
 
-### Citation
+## Citation
 Please cite our paper if you use this code in your own work:
 ```
 @inproceedings{zhangcross,
