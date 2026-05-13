@@ -1,4 +1,6 @@
+## A cross-species neural foundation model for end-to-end speech decoding
 
+- [Paper](https://arxiv.org/abs/2511.21740)
 - [Setup](#environment-setup)
 - [Training](#training)
 - [Eval](#eval)
@@ -49,16 +51,18 @@ python train.py --training_mode MODE \
 
 #### Training Args
 
-| Argument           | Choices / Value                                        | Default              |
-|--------------------|--------------------------------------------------------|----------------------|
-| `--training_mode`  | `train_from_scratch`, `finetune`                       | `train_from_scratch` |
-| `--encoder`        | `ndt`                                                  | `ndt`                |
-| `--task`           | `none`, `phoneme`, `sentence`                          | `none`               |
-| `--dataset`        | `none`, `willett_2023_text`, `brandman_2024_text`      | `none`               |
-| `--features`       | `none`, `all`, `tx1`, `spikePow`                       | `all`                |
-| `--ft_ckpt`        | Optional path to fine-tuned checkpoint                 | `none`               |
-| `--ds_config`      | Optional path to DeepSpeed config                      | `none`               |
-| `--kwargs`         | Additional key=value overrides                         | —                    |
+<table><thead><tr>
+<th>Argument</th><th>Choices</th><th>Default</th>
+</tr></thead><tbody>
+<tr><td><code>--training_mode</code></td><td><code>train_from_scratch</code>, <code>finetune</code></td><td><code>train_from_scratch</code></td></tr>
+<tr><td><code>--encoder</code></td><td><code>ndt</code></td><td><code>ndt</code></td></tr>
+<tr><td><code>--task</code></td><td><code>none</code>, <code>phoneme</code>, <code>sentence</code></td><td><code>none</code></td></tr>
+<tr><td><code>--dataset</code></td><td><code>none</code>, <code>willett_2023_text</code>, <code>brandman_2024_text</code></td><td><code>none</code></td></tr>
+<tr><td><code>--features</code></td><td><code>none</code>, <code>all</code>, <code>tx1</code>, <code>spikePow</code></td><td><code>all</code></td></tr>
+<tr><td><code>--ft_ckpt</code></td><td>Optional path to fine-tuned checkpoint</td><td><code>none</code></td></tr>
+<tr><td><code>--ds_config</code></td><td>Optional path to DeepSpeed config</td><td><code>none</code></td></tr>
+<tr><td><code>--kwargs</code></td><td>Additional key=value overrides</td><td>—</td></tr>
+</tbody></table>
 
 #### Example
 
@@ -95,12 +99,14 @@ Once you have the fine-tuned model, you can generate sentence predictions in two
 python eval_phoneme.py --model_path YOUR_MODEL_PATH --eval_split val
 ```
 
-| Argument                | Choices / Value                     | Default  |
-|-------------------------|-------------------------------------|----------|
-| `--model_path`          | Path to trained model               | `./`     |
-| `--eval_split`           | `val`, `test`, `holdout`           | `test`   |
-| `--gpu_number`          | GPU device index                    | `0`      |
-| `--trainer_config_path` | Path to trainer config              | `none`   |
+<table><thead><tr>
+<th>Argument</th><th>Choices</th><th>Default</th>
+</tr></thead><tbody>
+<tr><td><code>--model_path</code></td><td>Path to trained model</td><td><code>./</code></td></tr>
+<tr><td><code>--eval_split</code></td><td><code>val</code>, <code>test</code>, <code>holdout</code></td><td><code>test</code></td></tr>
+<tr><td><code>--gpu_number</code></td><td>GPU device index</td><td><code>0</code></td></tr>
+<tr><td><code>--trainer_config_path</code></td><td>Path to trainer config</td><td><code>none</code></td></tr>
+</tbody></table>
 
 > **NOTE**: `val` specifies the validation partition, which corresponds to the test set provided by the benchmark. Use `holdout` for the holdout set of the competition. The above script outputs `{eval_split}_phoneme_logits.pt`, which can optionally be used for language model rescoring with nucleus sampling in the next step.
 
@@ -110,11 +116,24 @@ python eval_phoneme.py --model_path YOUR_MODEL_PATH --eval_split val
 python eval_llm.py --model_path YOUR_MODEL_PATH --eval_split val
 ```
 
-| Argument                | Choices / Value                                    | Default  |
-|-------------------------|----------------------------------------------------|----------|
-| `--model_path`          | Path to LLM model                                  | `./`     |
-| `--eval_split`          | `val`, `test`, `holdout`                           | `test`   |
-| `--trainer_config_path` | Path to trainer config                             | `none`   |
-| `--gpu_number`          | GPU device index                                   | `0`      |
-| `--nbest`               | (Optional) number of candidate sentences for nucleus sampling | `0`      |
-| `--phoneme_logits_path` | (Optional) path to saved phoneme logits                       | `none`     |
+<table><thead><tr>
+<th>Argument</th><th>Choices</th><th>Default</th>
+</tr></thead><tbody>
+<tr><td><code>--model_path</code></td><td>Path to LLM model</td><td><code>./</code></td></tr>
+<tr><td><code>--eval_split</code></td><td><code>val</code>, <code>test</code>, <code>holdout</code></td><td><code>test</code></td></tr>
+<tr><td><code>--trainer_config_path</code></td><td>Path to trainer config</td><td><code>none</code></td></tr>
+<tr><td><code>--gpu_number</code></td><td>GPU device index</td><td><code>0</code></td></tr>
+<tr><td><code>--nbest</code></td><td>(Optional) number of candidate sentences for nucleus sampling</td><td><code>0</code></td></tr>
+<tr><td><code>--phoneme_logits_path</code></td><td>(Optional) path to saved phoneme logits</td><td><code>none</code></td></tr>
+</tbody></table>
+
+
+### Citation
+Please cite our paper if you use this code in your own work:
+```
+@inproceedings{zhangcross,
+  title={A cross-species neural foundation model for end-to-end speech decoding},
+  author={Zhang, Yizi and He, Linyang and Fan, Chaofei and Liu, Tingkai and Yu, Han and Le, Trung and Li, Jingyuan and Linderman, Scott and Duncker, Lea and Willett, Francis R and others},
+  booktitle={The Fourteenth International Conference on Learning Representations}
+}
+```
