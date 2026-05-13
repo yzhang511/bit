@@ -1,6 +1,6 @@
 ## BraIn-to-Text (BIT)
 
-**B**ra**I**n-to-**T**ext (**BIT**) is an end-to-end neural decoding framework for speech brain-computer interfaces (BCIs) that connects a transformer-based neural encoder with audio large language models (LLMs) to directly generate coherent sentences from neural activity.
+**B**ra**I**n-to-**T**ext (**BIT**) is an end-to-end speech BCI framework that connects a transformer-based neural encoder with audio LLMs to directly generate sentences from neural activity.
 
 - [Paper](https://arxiv.org/abs/2511.21740)
 - [Setup](#environment-setup)
