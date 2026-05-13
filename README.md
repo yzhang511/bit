@@ -47,12 +47,12 @@ python train.py --training_mode MODE \
 ```
 <small>
 
-- `--training_mode`: *train_from_scratch, finetune*
-- `--encoder`: *ndt*
-- `--task`: *phoneme, sentence*
-- `--dataset`: *willett_2023_text, brandman_2024_text*
-- `--features`: *all, tx1, spikePow*
-- `--ft_ckpt`: path to finetuned model checkpoint (optional)
+- *--training_mode: train_from_scratch, finetune*
+- *--encoder: ndt*
+- *--task: phoneme, sentence*
+- *--dataset: willett_2023_text, brandman_2024_text*
+- *--features: all, tx1, spikePow*
+- *--ft_ckpt: path to finetuned model checkpoint (optional)*
 
 </small>
 
@@ -90,9 +90,9 @@ python eval_phoneme.py --model_path YOUR_MODEL_PATH --eval_split val
 ```
 <small>
 
-- `--eval_split`: *val, test, holdout*
-- *val* specifies the validation partition, which corresponds to the test set provided by the benchmark. Use *holdout* for the holdout set of the competition. 
-- *{eval_split}_phoneme_logits.pt* is saved for use in language model rescoring.
+- *--eval_split: val, test, holdout*
+- *"val" corresponds to the benchmark test set; use "holdout" for the holdout set of the competition* 
+- *{eval_split}_phoneme_logits.pt is saved for use in language model rescoring*
 
 </small>
 
@@ -104,8 +104,8 @@ python eval_llm.py --model_path YOUR_MODEL_PATH --eval_split val
 
 <small>
 
-- `--nbest`: number of candidate sentences for nucleus sampling (optional) 
-- `--phoneme_logits_path`: path to saved phoneme logits (optional) 
+- *--nbest: number of candidate sentences for nucleus sampling (optional)*
+- *--phoneme_logits_path: path to saved phoneme logits (optional)*
 
 </small>
 
