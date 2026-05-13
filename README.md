@@ -1,4 +1,6 @@
-## A cross-species neural foundation model for end-to-end speech decoding
+## BraIn-to-Text (BIT)
+
+Speech brain-computer interfaces (BCIs) aim to restore communication for people with paralysis by directly translating neural activity into sentences. Most existing systems use cascaded frameworks that first decode phonemes before assembling sentences with an n-gram language model. We instead introduce an end-to-end BraIn-to-Text (BIT) framework that directly translates neural activity into coherent sentences by integrating a neural encoder with audio large language models (LLMs).
 
 - [Paper](https://arxiv.org/abs/2511.21740)
 - [Setup](#environment-setup)
@@ -48,21 +50,21 @@ python train.py --training_mode MODE \
                 [--ds_config DS_CONFIG] \
                 [--kwargs KEY=VALUE ...]
 ```
-
-#### Training Args
-
-<sub><table><thead><tr>
-<th>Argument</th><th>Choices</th><th>Default</th>
-</tr></thead><tbody>
-<tr><td><code>--training_mode</code></td><td><code>train_from_scratch</code>, <code>finetune</code></td><td><code>train_from_scratch</code></td></tr>
-<tr><td><code>--encoder</code></td><td><code>ndt</code></td><td><code>ndt</code></td></tr>
-<tr><td><code>--task</code></td><td><code>none</code>, <code>phoneme</code>, <code>sentence</code></td><td><code>none</code></td></tr>
-<tr><td><code>--dataset</code></td><td><code>none</code>, <code>willett_2023_text</code>, <code>brandman_2024_text</code></td><td><code>none</code></td></tr>
-<tr><td><code>--features</code></td><td><code>none</code>, <code>all</code>, <code>tx1</code>, <code>spikePow</code></td><td><code>all</code></td></tr>
-<tr><td><code>--ft_ckpt</code></td><td>Optional path to fine-tuned checkpoint</td><td><code>none</code></td></tr>
-<tr><td><code>--ds_config</code></td><td>Optional path to DeepSpeed config</td><td><code>none</code></td></tr>
-<tr><td><code>--kwargs</code></td><td>Additional key=value overrides</td><td>—</td></tr>
-</tbody></table></sub>
+<table>
+<thead><tr>
+<th><sub>Argument</sub></th><th><sub>Choices</sub></th><th><sub>Default</sub></th>
+</tr></thead>
+<tbody>
+<tr><td><sub><code>--training_mode</code></sub></td><td><sub><code>train_from_scratch</code>, <code>finetune</code></sub></td><td><sub><code>train_from_scratch</code></sub></td></tr>
+<tr><td><sub><code>--encoder</code></sub></td><td><sub><code>ndt</code></sub></td><td><sub><code>ndt</code></sub></td></tr>
+<tr><td><sub><code>--task</code></sub></td><td><sub><code>none</code>, <code>phoneme</code>, <code>sentence</code></sub></td><td><sub><code>none</code></sub></td></tr>
+<tr><td><sub><code>--dataset</code></sub></td><td><sub><code>none</code>, <code>willett_2023_text</code>, <code>brandman_2024_text</code></sub></td><td><sub><code>none</code></sub></td></tr>
+<tr><td><sub><code>--features</code></sub></td><td><sub><code>none</code>, <code>all</code>, <code>tx1</code>, <code>spikePow</code></sub></td><td><sub><code>all</code></sub></td></tr>
+<tr><td><sub><code>--ft_ckpt</code></sub></td><td><sub>Optional path to fine-tuned checkpoint</sub></td><td><sub><code>none</code></sub></td></tr>
+<tr><td><sub><code>--ds_config</code></sub></td><td><sub>Optional path to DeepSpeed config</sub></td><td><sub><code>none</code></sub></td></tr>
+<tr><td><sub><code>--kwargs</code></sub></td><td><sub>Additional key=value overrides</sub></td><td><sub>—</sub></td></tr>
+</tbody>
+</table>
 
 #### Example
 
@@ -98,15 +100,17 @@ Once you have the fine-tuned model, you can generate sentence predictions in two
 ```bash
 python eval_phoneme.py --model_path YOUR_MODEL_PATH --eval_split val
 ```
-
-<sub><table><thead><tr>
-<th>Argument</th><th>Choices</th><th>Default</th>
-</tr></thead><tbody>
-<tr><td><code>--model_path</code></td><td>Path to trained model</td><td><code>./</code></td></tr>
-<tr><td><code>--eval_split</code></td><td><code>val</code>, <code>test</code>, <code>holdout</code></td><td><code>test</code></td></tr>
-<tr><td><code>--gpu_number</code></td><td>GPU device index</td><td><code>0</code></td></tr>
-<tr><td><code>--trainer_config_path</code></td><td>Path to trainer config</td><td><code>none</code></td></tr>
-</tbody></table></sub>
+<table>
+<thead><tr>
+<th><sub>Argument</sub></th><th><sub>Choices</sub></th><th><sub>Default</sub></th>
+</tr></thead>
+<tbody>
+<tr><td><sub><code>--model_path</code></sub></td><td><sub>Path to trained model</sub></td><td><sub><code>./</code></sub></td></tr>
+<tr><td><sub><code>--eval_split</code></sub></td><td><sub><code>val</code>, <code>test</code>, <code>holdout</code></sub></td><td><sub><code>test</code></sub></td></tr>
+<tr><td><sub><code>--gpu_number</code></sub></td><td><sub>GPU device index</sub></td><td><sub><code>0</code></sub></td></tr>
+<tr><td><sub><code>--trainer_config_path</code></sub></td><td><sub>Path to trainer config</sub></td><td><sub><code>none</code></sub></td></tr>
+</tbody>
+</table>
 
 > **NOTE**: `val` specifies the validation partition, which corresponds to the test set provided by the benchmark. Use `holdout` for the holdout set of the competition. The above script outputs `{eval_split}_phoneme_logits.pt`, which can optionally be used for language model rescoring with nucleus sampling in the next step.
 
@@ -115,17 +119,19 @@ python eval_phoneme.py --model_path YOUR_MODEL_PATH --eval_split val
 ```bash
 python eval_llm.py --model_path YOUR_MODEL_PATH --eval_split val
 ```
-
-<sub><table><thead><tr>
-<th>Argument</th><th>Choices</th><th>Default</th>
-</tr></thead><tbody>
-<tr><td><code>--model_path</code></td><td>Path to LLM model</td><td><code>./</code></td></tr>
-<tr><td><code>--eval_split</code></td><td><code>val</code>, <code>test</code>, <code>holdout</code></td><td><code>test</code></td></tr>
-<tr><td><code>--trainer_config_path</code></td><td>Path to trainer config</td><td><code>none</code></td></tr>
-<tr><td><code>--gpu_number</code></td><td>GPU device index</td><td><code>0</code></td></tr>
-<tr><td><code>--nbest</code></td><td>(Optional) number of candidate sentences for nucleus sampling</td><td><code>0</code></td></tr>
-<tr><td><code>--phoneme_logits_path</code></td><td>(Optional) path to saved phoneme logits</td><td><code>none</code></td></tr>
-</tbody></table></sub>
+<table>
+<thead><tr>
+<th><sub>Argument</sub></th><th><sub>Choices</sub></th><th><sub>Default</sub></th>
+</tr></thead>
+<tbody>
+<tr><td><sub><code>--model_path</code></sub></td><td><sub>Path to LLM model</sub></td><td><sub><code>./</code></sub></td></tr>
+<tr><td><sub><code>--eval_split</code></sub></td><td><sub><code>val</code>, <code>test</code>, <code>holdout</code></sub></td><td><sub><code>test</code></sub></td></tr>
+<tr><td><sub><code>--trainer_config_path</code></sub></td><td><sub>Path to trainer config</sub></td><td><sub><code>none</code></sub></td></tr>
+<tr><td><sub><code>--gpu_number</code></sub></td><td><sub>GPU device index</sub></td><td><sub><code>0</code></sub></td></tr>
+<tr><td><sub><code>--nbest</code></sub></td><td><sub>(Optional) number of candidate sentences for nucleus sampling</sub></td><td><sub><code>0</code></sub></td></tr>
+<tr><td><sub><code>--phoneme_logits_path</code></sub></td><td><sub>(Optional) path to saved phoneme logits</sub></td><td><sub><code>none</code></sub></td></tr>
+</tbody>
+</table>
 
 
 ### Citation
